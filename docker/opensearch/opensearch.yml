@@ -1,0 +1,36 @@
+# OpenSearch Configuration
+# Phase 0.5: Local Development Setup
+
+# Cluster Configuration
+cluster.name: product-platform-cluster
+node.name: product-platform-node-1
+
+# Single Node Setup (for local development)
+discovery.type: single-node
+
+# Network Configuration
+network.host: 0.0.0.0
+http.port: 9200
+
+# Path Configuration
+path.data: /usr/share/opensearch/data
+path.logs: /usr/share/opensearch/logs
+
+# Security Plugin (DISABLED for local development)
+plugins.security.disabled: true
+
+# Performance Settings
+bootstrap.memory_lock: true
+
+# Index Settings
+action.auto_create_index: true
+
+# CORS Settings (for local development)
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+http.cors.allow-credentials: true
+http.cors.allow-methods: OPTIONS, HEAD, GET, POST, PUT, DELETE
+http.cors.allow-headers: X-Requested-With, Content-Type, Content-Length, Authorization
+
+# Logging
+logger.level: INFO
