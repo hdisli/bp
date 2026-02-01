@@ -1,0 +1,50 @@
+# Production Override
+# Usage: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+services:
+  postgres:
+    restart: always
+
+  redis:
+    restart: always
+
+  opensearch:
+    restart: always
+
+  nginx:
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: production
+    command: node dist/main
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-product_platform}
+      REDIS_URL: redis://redis:6379
+      OPENSEARCH_URL: http://opensearch:9200
+      NODE_ENV: production
+      LOG_LEVEL: warn
+      PORT: "3000"
+      JWT_SECRET: ${JWT_SECRET}
+    ports: !reset []
+    volumes: !reset
+      - backend-node-modules:/app/node_modules
+      - ./uploads:/app/uploads
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    command: npm run build
+    environment:
+      NODE_ENV: production
+    ports: !reset []
+    volumes: !reset
+      - frontend-node-modules:/app/node_modules
+    restart: always

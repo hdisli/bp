@@ -1,0 +1,36 @@
+# OpenSearch Configuration
+# Phase 0.5: Single-node development setup
+
+cluster.name: opensearch-cluster
+node.name: opensearch-node-1
+
+# Network settings
+network.host: 0.0.0.0
+http.port: 9200
+transport.port: 9300
+
+# Discovery settings for single-node
+discovery.type: single-node
+
+# Disable security plugin for local development
+plugins.security.disabled: true
+
+# Path settings
+path.data: /usr/share/opensearch/data
+path.logs: /usr/share/opensearch/logs
+
+# Memory settings
+bootstrap.memory_lock: false
+
+# Index settings
+action.auto_create_index: true
+
+# CORS settings – restricted to backend container only
+http.cors.enabled: true
+http.cors.allow-origin: "/https?:\\/\\/localhost(:[0-9]+)?/"
+http.cors.allow-methods: OPTIONS, HEAD, GET, POST, PUT, DELETE
+http.cors.allow-headers: "X-Requested-With, Content-Type, Content-Length, Authorization"
+
+# Performance tuning for development
+indices.query.bool.max_clause_count: 2048
+thread_pool.write.queue_size: 1000
